@@ -65,14 +65,16 @@
         if($user){
           return $user;
         }
-        else{
+        else if($protected){
          // Redirecionando usuario não autenticado
 
           $this->message->setMessage("Faça o login para acessar essa pagina", "error", "index.php"); 
         }
       }
-      else{
-        return false;
+      else if($protected){
+        // Redirecionando usuario não autenticado
+
+        $this->message->setMessage("Faça o login para acessar essa pagina", "error", "index.php"); 
       }
     }
 
@@ -149,6 +151,14 @@
         return false;
       }
     }
+
+      public function destroyToken(){
+        // Remove o token da session
+        $_SESSION["token"] = "";
+
+        // Redirecionar e apresentar a mensagem de sucesso
+        $this->message->setMessage("Você fez logout com sucesso", "success", "index.php");
+      }
 
     public function changePassword(User $user){
 
